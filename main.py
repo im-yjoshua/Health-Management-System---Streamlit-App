@@ -1,5 +1,6 @@
 import streamlit as st
 import datetime
+import os
 
 # Set page configuration
 st.set_page_config(page_title="Health Management System")
@@ -10,10 +11,18 @@ def current_time():
 class HealthManagementSystem:
     def __init__(self, name):
         self.name = name
+        self.database_path = 'data/database.txt'
+        self.ensure_database_exists()
+
+    def ensure_database_exists(self):
+        if not os.path.exists('data'):
+            os.makedirs('data')
+        if not os.path.exists(self.database_path):
+            open(self.database_path, 'w').close()
 
     def sign_in(self):
         try:
-            with open('data/database.txt') as file:
+            with open(self.database_path) as file:
                 for line in file:
                     if self.name in line:
                         return True
@@ -24,7 +33,7 @@ class HealthManagementSystem:
 
     def sign_up(self):
         if not self.sign_in():
-            with open('data/database.txt', 'a') as file:
+            with open(self.database_path, 'a') as file:
                 file.write(f"{self.name}\n")
             return True
         return False
