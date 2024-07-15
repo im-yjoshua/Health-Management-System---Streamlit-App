@@ -1,6 +1,9 @@
 import streamlit as st
 import datetime
 
+# Set page configuration
+st.set_page_config(page_title="Health Management System")
+
 def current_time():
     return datetime.datetime.now()
 
